@@ -1,38 +1,29 @@
-/* eslint-disable no-magic-numbers */
-/* eslint-disable max-len */
 const fs = require('fs');
 
 const random = (within) => Math.floor(Math.random() * within);
 
-const colorCode = () => [random(256), random(256), random(256)].join(',');
+const randomElementFrom = (array) => array[random(array.length)];
 
-const colorPicker = () => 'rgb(' + colorCode() + ');';
+const generateTag = ({ tag, contents, tagClass = '' }) => {
+  const classes = tagClass === '' ? '' : ' class="' + tagClass + '"';
+  const tagWithAttributes = '<' + tag + classes + '>';
 
-const generateStyle = (styleContents) => ' style = "' + styleContents + '"';
-
-const generateTag = (tag, contents, style = '') =>
-  '<' + tag + style + '>' + contents + '</' + tag.split(' ')[0] + '>';
-
-const rotationAngle = (maxAngle) => {
-  const angle = random(maxAngle);
-  return angle > 50 ? -(100 - angle) : angle;
+  return tagWithAttributes + contents + '</' + tag + '>';
 };
 
-const generatePin = () => {
-  const pinStyle = 'text-align: center;';
-  return generateTag('p', '📌', generateStyle(pinStyle));
-};
-
-const getInfo = (words, index) => words[index];
+const generatePin = () =>
+  generateTag({ tag: 'p', contents: '📌', tagClass: 'pin' });
 
 const generateNote = ({ names, adverbs, actions, toWhats, emojis }) => {
-  const name = getInfo(names, random(names.length));
-  const adverb = getInfo(adverbs, random(adverbs.length));
-  const action = getInfo(actions, random(actions.length));
-  const toWhat = getInfo(toWhats, random(toWhats.length));
-  const emoji = getInfo(emojis, random(emojis.length));
+  const name = randomElementFrom(names);
+  const adverb = randomElementFrom(adverbs);
+  const action = randomElementFrom(actions);
+  const toWhat = randomElementFrom(toWhats);
 
-  return name + ' ' + adverb + ' ' + action + ' ' + toWhat + ' ' + emoji + '.';
+  const emoji = randomElementFrom(emojis);
+  const emojiTag = generateTag({ tag: 'span', contents: emoji, tagClass: 'emoji' });
+
+  return [name, adverb, action, toWhat].join(' ') + '.' + emojiTag;
 };
 
 const generateStickyContent = () => {
@@ -45,16 +36,27 @@ const generateStickyContent = () => {
   };
 
   const sentence = generateNote(contents);
-  const noteStyle = 'padding-left: 0.3em;font-style: italic;';
+  return generateTag({ tag: 'p', contents: sentence, tagClass: 'sentence' });
+};
 
-  return generateTag('p', sentence, generateStyle(noteStyle));
+const getColorClass = () => {
+  const colorClasses = ['stickyColor1', 'stickyColor2', 'stickyColor3', 'stickyColor4', 'stickyColor5', 'stickyColor6', 'stickyColor7', 'stickyColor8', 'stickyColor9'];
+  return randomElementFrom(colorClasses);
+};
+
+const getAngleClass = () => {
+  const anglesClasses = ['R0', 'R10', 'R20', 'R30', 'R40', 'R-10', 'R-20', 'R-30', 'R-40'];
+  return randomElementFrom(anglesClasses);
 };
 
 const sticky = () => {
-  const stickyContents = generatePin(100) + generateStickyContent();
-  const stickyStyle = 'width: 19%; height: 21%; border-radius: 5%; transform: rotate(' + rotationAngle(100) + 'deg);background-color:' + colorPicker();
+  const stickyContents = generatePin() + generateStickyContent();
 
-  return generateTag('div', stickyContents, generateStyle(stickyStyle));
+  const colorClass = getColorClass();
+  const angleClass = getAngleClass();
+
+  const tagClasses = ['sticky', colorClass, angleClass].join(' ');
+  return generateTag({ tag: 'div', contents: stickyContents, tagClass: tagClasses });
 };
 
 const allStickies = (numberOfStickies) => {
@@ -67,21 +69,24 @@ const allStickies = (numberOfStickies) => {
   return stickies;
 };
 
-const stickyContainer = (stickies) => {
-  const containerStyle = 'width: 1200px;height: 900px;font-size: 1.5em;display: flex;flex-wrap: wrap;align-content: flex-start;gap: 0.5em;border: 1.5em solid grey;border-radius: 2em;padding: 0.2%;margin: 0 auto;background-color:' + colorPicker();
-
-  return generateTag('div', stickies, generateStyle(containerStyle));
-};
-
-const generatePage = (container) =>
-  generateTag('html', generateTag('body', container));
-
-const main = (numberOfStickies) => {
+const stickyContainer = (numberOfStickies) => {
   const stickies = allStickies(numberOfStickies);
-  const container = stickyContainer(stickies);
-  const pageContents = generatePage(container);
+  const colorClasses = ['containerColor1', 'containerColor2', 'containerColor3'];
+  const colorClass = randomElementFrom(colorClasses);
 
-  fs.writeFileSync('sticky.html', pageContents, 'utf8');
+  return generateTag({ tag: 'div', contents: stickies, tagClass: 'container ' + colorClass });
 };
 
-main(24);
+const generateHtml = (numberOfStickies) => {
+  const title = generateTag({ tag: 'title', contents: 'Sticky' });
+  const link = '<link rel="stylesheet" href="style.css">';
+  const head = generateTag({ tag: 'head', contents: title + link });
+
+  const bodeContents = stickyContainer(numberOfStickies);
+  const body = generateTag({ tag: 'body', contents: bodeContents });
+  const html = generateTag({ tag: 'html', contents: head + body });
+
+  fs.writeFileSync('sticky.html', html, 'utf8');
+};
+
+generateHtml(24);

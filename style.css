@@ -1,0 +1,117 @@
+.pin {
+  text-align: center;
+}
+
+.emoji {
+  font-style: normal;
+}
+
+.sentence {
+  padding-left: 0.3em;
+  font-style: italic;
+}
+
+.sticky {
+  width: 19%;
+  height: 21%;
+  border-radius: 5%;
+}
+
+.container {
+  width: 1200px;
+  height: 900px;
+  font-size: 1.5em;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.5em;
+  border: 1.5em solid grey;
+  border-radius: 2em;
+  padding: 0.2%;
+  margin: 0 auto;
+  background-color: #d3d3d3;
+}
+
+.containerColor1 {
+  background-color: #B8D8D8;
+}
+
+.containerColor2 {
+  background-color: #FBF8CC;
+}
+
+.containerColor3 {
+  background-color: #D3D3D3;
+}
+
+.stickyColor1 {
+  background-color: #f1776e;
+}
+
+.stickyColor2 {
+  background-color: #dc70ec;
+}
+
+.stickyColor3 {
+  background-color: #e28080;
+}
+
+.stickyColor4 {
+  background-color: #b28bf0;
+}
+
+.stickyColor5 {
+  background-color: #a0c7ff;
+}
+
+.stickyColor6 {
+  background-color: #a0a600;
+}
+
+.stickyColor7 {
+  background-color: #afb170;
+}
+
+.stickyColor8 {
+  background-color: #a494fb;
+}
+
+.stickyColor9 {
+  background-color: #a0ff6d;
+}
+
+.R0 {
+  transform: rotate(0deg);
+}
+
+.R10 {
+  transform: rotate(10deg);
+}
+
+.R20 {
+  transform: rotate(20deg);
+}
+
+.R30 {
+  transform: rotate(30deg);
+}
+
+.R40 {
+  transform: rotate(40deg);
+}
+
+.R-10 {
+  transform: rotate(-10deg);
+}
+
+.R-20 {
+  transform: rotate(-20deg);
+}
+
+.R-30 {
+  transform: rotate(-30deg);
+}
+
+.R-40 {
+  transform: rotate(-40deg);
+}
