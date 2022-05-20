@@ -14,16 +14,26 @@ const generateTag = ({ tag, contents, tagClass = '' }) => {
 const generatePin = () =>
   generateTag({ tag: 'p', contents: '📌', tagClass: 'pin' });
 
-const generateNote = ({ names, adverbs, actions, toWhats, emojis }) => {
-  const name = randomElementFrom(names);
-  const adverb = randomElementFrom(adverbs);
-  const action = randomElementFrom(actions);
-  const toWhat = randomElementFrom(toWhats);
+const getName = (names) => randomElementFrom(names);
 
-  const emoji = randomElementFrom(emojis);
+const getAdverb = (adverbs) => randomElementFrom(adverbs);
+
+const getAction = (actions) => randomElementFrom(actions);
+
+const getObject = (objects) => randomElementFrom(objects);
+
+const getEmoji = (emojis) => randomElementFrom(emojis);
+
+const generateNote = ({ names, adverbs, actions, objects, emojis }) => {
+  const name = getName(names);
+  const adverb = getAdverb(adverbs);
+  const action = getAction(actions);
+  const object = getObject(objects);
+
+  const emoji = getEmoji(emojis);
   const emojiTag = generateTag({ tag: 'span', contents: emoji, tagClass: 'emoji' });
 
-  return [name, adverb, action, toWhat].join(' ') + '.' + emojiTag;
+  return [name, adverb, action, object].join(' ') + '.' + emojiTag;
 };
 
 const generateStickyContent = () => {
@@ -31,7 +41,7 @@ const generateStickyContent = () => {
     names: ['Abin', 'Ashritha', 'Azhar', 'Barnali', 'Chhavi', 'Dileep'],
     adverbs: ['often', 'always', 'frequently', 'sometimes', 'seldom', 'rarely'],
     actions: ['throws', 'eats', 'drinks', 'kicks', 'loves', 'hates'],
-    toWhats: ['laptops', 'mobiles', 'bikes', 'animals', 'birds', 'stones'],
+    objects: ['laptops', 'mobiles', 'bikes', 'animals', 'birds', 'stones'],
     emojis: ['😂', '🥳', '🤭', '🤔', '🤪', '😉', '🤨', '🤫', '😇', '😎', '🤓']
   };
 
@@ -40,12 +50,17 @@ const generateStickyContent = () => {
 };
 
 const getColorClass = () => {
-  const colorClasses = ['stickyColor1', 'stickyColor2', 'stickyColor3', 'stickyColor4', 'stickyColor5', 'stickyColor6', 'stickyColor7', 'stickyColor8', 'stickyColor9'];
+  const colorClasses = ['stickyColor1', 'stickyColor2', 'stickyColor3',
+    'stickyColor4', 'stickyColor5', 'stickyColor6', 'stickyColor7',
+    'stickyColor8', 'stickyColor9'];
+
   return randomElementFrom(colorClasses);
 };
 
 const getAngleClass = () => {
-  const anglesClasses = ['R0', 'R10', 'R20', 'R30', 'R40', 'R-10', 'R-20', 'R-30', 'R-40'];
+  const anglesClasses = ['R0', 'R10', 'R20', 'R30', 'R40',
+    'R-10', 'R-20', 'R-30', 'R-40'];
+
   return randomElementFrom(anglesClasses);
 };
 
